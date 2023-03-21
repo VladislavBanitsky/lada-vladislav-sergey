@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ <title>IT-тренер</title>
+{% endblock %}
+
+{% block body %}
+<!-- <div class="p-3 mb-2 bg-primary">-->
+<!--   <img src="/Applications/Универ/5 семестр/Курсовик/templates/Fon.jpg" style="width:900px;height:600px;">-->
+<div class="container">
+    <h1>Введите свое имя</h1>
+    <form method="post" class="needs-validation" novalidate>
+
+        <input type="text" class="form-control" name="name_mem" id="name_mem" placeholder="Введите имя" required>
+        <div class="invalid-feedback"> Вы не ввели имя </div> <br>
+        <button class="btn btn-primary" type="submit"> Добавить </button>
+    </form>
+
+</div>
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}
