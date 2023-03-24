@@ -1,9 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for  # из библиотеки импортировать класс Flask
-from flask_sqlalchemy import SQLAlchemy
-import os.path
-import tempfile
-from datetime import datetime
-# from cloudipsp import Api, Checkout
+from flask import Flask, render_template, request, redirect  # из библиотеки импортировать класс Flask
+from flask_sqlalchemy import SQLAlchemy  # Flask-SQLAlchemy
+
 
 app = Flask(__name__)
 
@@ -15,7 +12,7 @@ class Beginner(db.Model):
     __tablename__ = 'beginner'
     id = db.Column(db.Integer, primary_key=True)  # primary_key - автоматичсекая нумерация
     question = db.Column(db.Text,
-                            nullable=False)  # nullable - нельзя оставить поле пустым, String(100) - максимум 100 символов
+                            nullable=False)  # nullable - нельзя оставить поле пустым
     var1 = db.Column(db.Text, nullable=False)
     var2 = db.Column(db.Text, nullable=False)
     var3 = db.Column(db.Text, nullable=False)
@@ -23,40 +20,34 @@ class Beginner(db.Model):
                       nullable=False)  # db.Text - string ограничиваниет 250 символами, а Text - сколько угодно символов
     right_answer = db.Column(db.Text, nullable=False)
     img = db.Column(db.Text, nullable=True)
-#
-#     # ff = db.relationship('Seans', backref='film_seans', lazy='dynamic')
-    def __repr__(self):
+
+    def __repr__(self):   # вывод id участника
         return f"<profiles {self.id}>"
-#
 
 class Experienced(db.Model):
     __tablename__ = 'experienced'
-    id = db.Column(db.Integer, primary_key=True)  # primary_key - автоматичсекая нумерация
-    question = db.Column(db.Text,
-                            nullable=False)  # nullable - нельзя оставить поле пустым, String(100) - максимум 100 символов
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.Text, nullable=False)
     var1 = db.Column(db.Text, nullable=False)
     var2 = db.Column(db.Text, nullable=False)
     var3 = db.Column(db.Text, nullable=False)
-    var4 = db.Column(db.Text,
-                      nullable=False)  # db.Text - string ограничиваниет 250 символами, а Text - сколько угодно символов
+    var4 = db.Column(db.Text, nullable=False)
     right_answer = db.Column(db.Text, nullable=False)
     img = db.Column(db.Text, nullable=True)
-#
-#     # ff = db.relationship('Seans', backref='film_seans', lazy='dynamic')
+
     def __repr__(self):
         return f"<profiles {self.id}>"
 
-
 class Member(db.Model):
     __tablename__ = 'member'
-    id = db.Column(db.Integer, primary_key=True)  # primary_key - автоматичсекая нумерация
-    name_member = db.Column(db.Text)  # nullable - нельзя оставить поле пустым, String(100) - максимум 100 символов
+    id = db.Column(db.Integer, primary_key=True)
+    name_member = db.Column(db.Text)
     status = db.Column(db.Text)
     level_test = db.Column(db.Text)
     ans1 = db.Column(db.Text)
     ans2 = db.Column(db.Text)
     ans3 = db.Column(db.Text)
-    ans4 = db.Column(db.Text)  # db.Text - string ограничиваниет 250 символами, а Text - сколько угодно символов
+    ans4 = db.Column(db.Text)
     ans5 = db.Column(db.Text)
     ans6 = db.Column(db.Text)
     ans7 = db.Column(db.Text)
@@ -64,27 +55,10 @@ class Member(db.Model):
     ans9 = db.Column(db.Text)
     ans10 = db.Column(db.Text)
     kol_prav = db.Column(db.Integer)
-#
-#     # ff = db.relationship('Seans', backref='film_seans', lazy='dynamic')
+
     def __repr__(self):
         return f"<profiles {self.id}>"
 
-
-
-# class Seans(db.Model):
-#     __tablename__ = 'seans'
-#     id = db.Column(db.Integer, primary_key=True)
-#     id_film = db.Column(db.Integer, db.ForeignKey('film.id'))
-#     format = db.Column(db.String(3), nullable=False)
-#     data_of_pokaz = db.Column(db.String(100), nullable=False)
-#     time_of_pokaz = db.Column(db.String(100), nullable=False)
-#     hall = db.Column(db.Integer, nullable=False)
-#     price = db.Column(db.Integer, nullable=False)
-#
-#     ss = db.relationship('Ticket', backref='seans_ticket', lazy='dynamic')
-#     def __repr__(self):
-#         return f"<profiles {self.id}>"
-#
 
 def Test(id_q):
     a = request.form.getlist('mybox')
@@ -106,13 +80,10 @@ def Test(id_q):
         answer.ans6 = b
     elif answer.ans7 == None:
         answer.ans7 = b
-
     elif answer.ans8 == None:
         answer.ans8 = b
-
     elif answer.ans9 == None:
         answer.ans9 = b
-
     elif answer.ans10 == None:
         answer.ans10 = b
 
@@ -127,7 +98,6 @@ def Test(id_q):
         print("Не правильно")
     db.session.commit()
     return 0
-
 
 def Test2(id_q):
     a = request.form.getlist('mybox')
@@ -171,25 +141,25 @@ def Test2(id_q):
     db.session.commit()
     return 0
 
-
-@app.route('/')  # отслеживание главной страницы
+# Отслеживание главной страницы
+@app.route('/')
 def home():
+    # раскомментировать эти строки для создания базы и потом снова закомментировать
     # with app.app_context():
-    #         # px = Ticket.query.filter_by(id_seans=1).all()
-    #         #  print(px[0].id)
-    #         # db.session.delete(px)
     #     db.create_all()
     #     db.session.commit()
-    answer = Beginner.query.filter_by(id=10).first()
-    answer.var4 = "Ме"
-    answer.right_answer = "Класс"
-    db.session.commit()
+    # answer = Beginner.query.filter_by(id=10).first()
+    # answer.var4 = "Ме"
+    # answer.right_answer = "Класс"
+    # db.session.commit()
     # print(answer.ans1)
     # print(answer.kol_prav)
 
 
 
-    # Тест1
+    # Тест 1
+    # Раскомментировать этот код для создания вопросов,
+    # обновить страницу в браузере и снова закомментировать
     # ticket1 = Beginner(question="О жизни", var1="Классна", var2="Хороша", var3="Грустна", var4="Ужасна", right_answer="Грустна")
     # ticket2 = Beginner(question="О книгах", var1="Интересные", var2="Скучные", var3="Увлекательные", var4="Не интересные", right_answer="Интересные")
     # ticket3 = Beginner(question="Все плохо?", var1="Да", var2="Нет", var3="Сомневаюсь", var4="Не знаю",
@@ -209,14 +179,14 @@ def home():
     # ticket10 = Beginner(question="Как тест", var1="Класс", var2="Хорошо", var3="Норм", var4="Не очень",
     #                    right_answer="Классно")
     #
-    # # db.session.add(ticket1)
-    # # db.session.commit()
-    # #
-    # # db.session.add(ticket2)
-    # # db.session.commit()
-    # #
-    # # db.session.add(ticket3)
-    # # db.session.commit()
+    # db.session.add(ticket1)
+    # db.session.commit()
+    #
+    # db.session.add(ticket2)
+    # db.session.commit()
+    #
+    # db.session.add(ticket3)
+    # db.session.commit()
     #
     # db.session.add(ticket4)
     # db.session.commit()
@@ -242,7 +212,6 @@ def home():
     # print("Билет добавлен 10")
 
     # Тест2
-
     # ticket1 = Experienced(question="Выбери лишнее:", var1="Лес", var2="Озеро", var3="Гора", var4="Дом", right_answer="Дом")
     # ticket2 = Experienced(question="Выбери лишнее:", var1="Мышь", var2="Монитор", var3="Клавиатура", var4="Паскаль", right_answer="Паскаль")
     # ticket3 = Experienced(question="Что думаешь?", var1="Все хорошо", var2="Все нормально", var3="Устал", var4="Все скучно",
@@ -291,10 +260,12 @@ def home():
     #
     # db.session.add(ticket10)
     # db.session.commit()
+    #
+    # print("Билет добавлен 10")
 
-    print("Билет добавлен 10")
 
 
+    # Перед созданием базы закомментировать этот код и удалить файл с базой
     answer = Member.query.filter_by(status="нет").all()
     for i in range(len(answer)):
         if answer[i].status == "нет":
@@ -302,9 +273,9 @@ def home():
             db.session.commit()
     return render_template('index.html')
 
-@app.route('/beginner', methods=['POST', 'GET'])  # отслеживание главной страницы
+# Отслеживание страницы с вводом имени для уровня "Новичок"
+@app.route('/beginner', methods=['POST', 'GET'])
 def name1():
-    level_name="beginner"
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -318,96 +289,22 @@ def name1():
         except:
             return "Ошибка"
     else:
-        return render_template('name.html', level_name=level_name)
+        return render_template('name.html')
 
-@app.route('/beginner/1', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question1():
-    quest = Beginner.query.filter_by(id=1).all()
+# Отслеживание страниц с вопросами для уровня "Новичок"
+@app.route('/beginner/<int:id>', methods=['POST', 'GET'])
+def question1(id):
+    quest = Beginner.query.filter_by(id=id).all()
     if request.method == 'POST':
-        Test(1)
-        return redirect('/beginner/2')
+        Test(id)
+        if id == 10:  # заключительный вопрос, показываем страницу с результатом
+            return redirect('/beginner/10/result')
+        else:  # иначе, показываем следующий вопрос
+            return redirect(f'/beginner/{id+1}')
     return render_template('question.html', quest=quest)
 
-@app.route('/beginner/2', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question2():
-    quest = Beginner.query.filter_by(id=2).all()
-    if request.method == 'POST':
-        Test(2)
-        return redirect('/beginner/3')
-    return render_template('question.html', quest=quest)
-
-@app.route('/beginner/3', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question3():
-    quest = Beginner.query.filter_by(id=3).all()
-    if request.method == 'POST':
-        Test(3)
-        return redirect('/beginner/4')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/4', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question4():
-    quest = Beginner.query.filter_by(id=4).all()
-    if request.method == 'POST':
-        Test(4)
-        return redirect('/beginner/5')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/5', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question5():
-    quest = Beginner.query.filter_by(id=5).all()
-    if request.method == 'POST':
-        Test(5)
-        return redirect('/beginner/6')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/6', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question6():
-    quest = Beginner.query.filter_by(id=6).all()
-    if request.method == 'POST':
-        Test(6)
-        return redirect('/beginner/7')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/7', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question7():
-    quest = Beginner.query.filter_by(id=7).all()
-    if request.method == 'POST':
-        Test(7)
-        return redirect('/beginner/8')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/8', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question8():
-    quest = Beginner.query.filter_by(id=8).all()
-    if request.method == 'POST':
-        Test(8)
-        return redirect('/beginner/9')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/9', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question9():
-    quest = Beginner.query.filter_by(id=9).all()
-    if request.method == 'POST':
-        Test(9)
-        return redirect('/beginner/10')
-    return render_template('question.html', quest=quest)
-
-
-@app.route('/beginner/10', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question10():
-    quest = Beginner.query.filter_by(id=10).all()
-    if request.method == 'POST':
-        Test(10)
-        return redirect('/beginner/10/result')
-    return render_template('question.html', quest=quest)
-
-@app.route('/beginner/10/result')  # отслеживание главной страницы
+# Отслеживание страницы с результатами для уровня "Новичок"
+@app.route('/beginner/10/result')
 def result():
     answer = Member.query.filter_by(status="нет").first()
     data = answer.kol_prav
@@ -415,24 +312,10 @@ def result():
     db.session.commit()
     return render_template('result.html', data=data)
 
-
-@app.route('/experienced', methods=['POST', 'GET'])  # отслеживание главной страницы
+# Отслеживание страницы с вводом имени для уровня "Опытный"
+@app.route('/experienced', methods=['POST', 'GET'])
 def name2():
     level_name = "Experienced"
-    # ticket1 = Beginner(question="О жизни", var1="Классна", var2="Хороша", var3="Грустна", var4="Ужасна", right_answer="Грустна")
-    # ticket2 = Beginner(question="О книгах", var1="Интересные", var2="Скучные", var3="Увлекательные", var4="Не интересные", right_answer="Интересные")
-    # ticket3 = Beginner(question="Все плохо?", var1="Да", var2="Нет", var3="Сомневаюсь", var4="Не знаю",
-    #                    right_answer="Да")
-    # db.session.add(ticket1)
-    # db.session.commit()
-    #
-    # db.session.add(ticket2)
-    # db.session.commit()
-    #
-    # db.session.add(ticket3)
-    # db.session.commit()
-    # print("Билет добавлен 3")
-    # homes = Film.query.order_by(Film.year_of_production.desc()).all()
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -445,89 +328,22 @@ def name2():
         except:
             return "Ошибка"
     else:
-        return render_template('name.html',  level_name=level_name)
+        return render_template('name.html', level_name=level_name)
 
-@app.route('/experienced/1', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question11():
-    quest = Experienced.query.filter_by(id=1).all()
+# Отслеживание страниц с вопросами для уровня "Опытный"
+@app.route('/experienced/<int:id>', methods=['POST', 'GET'])
+def question11(id):
+    quest = Experienced.query.filter_by(id=id).all()
     if request.method == 'POST':
-        Test2(1)
-        return redirect('/experienced/2')
+        Test2(id)
+        if id == 10:  # заключительный вопрос, показываем страницу с результатом
+            return redirect('/experienced/10/result')
+        else:  # иначе, показываем следующий вопрос
+            return redirect(f'/experienced/{id+1}')
     return render_template('question.html', quest=quest)
 
-@app.route('/experienced/2', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question22():
-    quest = Experienced.query.filter_by(id=2).all()
-    if request.method == 'POST':
-        Test2(2)
-        return redirect('/experienced/3')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/3', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question33():
-    quest = Experienced.query.filter_by(id=3).all()
-    if request.method == 'POST':
-        Test2(3)
-        return redirect('/experienced/4')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/4', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question44():
-    quest = Experienced.query.filter_by(id=4).all()
-    if request.method == 'POST':
-        Test2(4)
-        return redirect('/experienced/5')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/5', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question55():
-    quest = Experienced.query.filter_by(id=5).all()
-    if request.method == 'POST':
-        Test2(5)
-        return redirect('/experienced/6')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/6', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question66():
-    quest = Experienced.query.filter_by(id=6).all()
-    if request.method == 'POST':
-        Test2(6)
-        return redirect('/experienced/7')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/7', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question77():
-    quest = Experienced.query.filter_by(id=7).all()
-    if request.method == 'POST':
-        Test2(7)
-        return redirect('/experienced/8')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/8', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question88():
-    quest = Experienced.query.filter_by(id=8).all()
-    if request.method == 'POST':
-        Test2(8)
-        return redirect('/experienced/9')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/9', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question99():
-    quest = Experienced.query.filter_by(id=9).all()
-    if request.method == 'POST':
-        Test2(9)
-        return redirect('/experienced/10')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/10', methods=['POST', 'GET'])  # отслеживание главной страницы
-def question1010():
-    quest = Experienced.query.filter_by(id=10).all()
-    if request.method == 'POST':
-        Test2(10)
-        return redirect('/experienced/10/result')
-    return render_template('question.html', quest=quest)
-
-@app.route('/experienced/10/result')  # отслеживание главной страницы
+# Отслеживание страницы с результатами для уровня "Опытный"
+@app.route('/experienced/10/result')
 def result2():
     answer = Member.query.filter_by(status="нет").first()
     data = answer.kol_prav
@@ -535,10 +351,9 @@ def result2():
     db.session.commit()
     return render_template('result.html', data=data)
 
-
-@app.route('/professional', methods=['POST', 'GET'])  # отслеживание главной страницы
+# Отслеживание страницы с вводом имени для уровня "Профи"
+@app.route('/professional', methods=['POST', 'GET'])
 def name3():
-    # homes = Film.query.order_by(Film.year_of_production.desc()).all()
     return render_template('name.html')
 
 
