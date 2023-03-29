@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ <title>IT-тренер</title>
+{% endblock %}
+
+{% block body %}
+<!-- <div class="p-3 mb-2 bg-primary">-->
+<!--   <img src="/Applications/Универ/5 семестр/Курсовик/templates/Fon.jpg" style="width:900px;height:600px;">-->
+<div class="container">
+    <div class="page-header">
+    <h1 class="display-4 fw-normal text-center">Уровень: {{level_name}}</h1>
+    </div>
+    <h2>Введите свое имя</h2>
+    <form method="post" class="needs-validation" novalidate>
+
+        <input type="text" class="form-control" name="name_mem" id="name_mem" placeholder="Введите имя" required>
+        <div class="invalid-feedback"> Вы не ввели имя </div> <br>
+        <button class="btn btn-primary" type="submit"> Начать тест </button>
+    </form>
+    </div>
+<style>
+.block {
+  border: 30px solid transparent;
+  border-image: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%) 20% / 1 / 0 stretch;
+  /*  border-image-source: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+    border-image-slice: 20%;
+    border-image-width: 1;
+    border-image-outset: 0;
+    border-image-repeat: stretch; */
+}
+    .page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eee;
+}
+</style>
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}
