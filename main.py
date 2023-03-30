@@ -7,8 +7,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///it-trener.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-js = {'Name': '', '1': '', '2': ''}
-    # print(js['Name'])
+
 class Beginner(db.Model):
     __tablename__ = 'beginner'
     id = db.Column(db.Integer, primary_key=True)  # primary_key - автоматичсекая нумерация
@@ -20,23 +19,35 @@ class Beginner(db.Model):
     var4 = db.Column(db.Text,
                       nullable=False)  # db.Text - string ограничиваниет 250 символами, а Text - сколько угодно символов
     right_answer = db.Column(db.Text, nullable=False)
-    img = db.Column(db.Text, nullable=True)
 
-    def __repr__(self):   # вывод id участника
+    def __repr__(self):   # вывод id вопроса
         return f"<profiles {self.id}>"
 
 class Experienced(db.Model):
     __tablename__ = 'experienced'
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.Text, nullable=False)
+    # Четыре переменные для вопросов с 4-мя вариантами ответа
     var1 = db.Column(db.Text, nullable=False)
     var2 = db.Column(db.Text, nullable=False)
     var3 = db.Column(db.Text, nullable=False)
     var4 = db.Column(db.Text, nullable=False)
+    # Переменная с правильным ответом
     right_answer = db.Column(db.Text, nullable=False)
-    img = db.Column(db.Text, nullable=True)
 
-    def __repr__(self):
+    def __repr__(self):  # вывод id вопроса
+        return f"<profiles {self.id}>"
+
+class Professional(db.Model):  # Таблица для вопросов уровня "Профессионал"
+    __tablename__ = 'professional'
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.Text, nullable=False)
+    # Одна переменная для вопроса с вводом ответа
+    single_var = db.Column(db.Text, nullable=True)
+    # Переменная с правильным ответом
+    right_answer = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):  # вывод id вопроса
         return f"<profiles {self.id}>"
 
 class Member(db.Model):
@@ -57,45 +68,54 @@ class Member(db.Model):
     ans10 = db.Column(db.Text)
     kol_prav = db.Column(db.Integer)
 
-    def __repr__(self):
+    def __repr__(self):  # вывод id участника
         return f"<profiles {self.id}>"
 
 
-def Test(id_q):
+def Test(id_q):  # id_q - id вопроса
     a = request.form.getlist('mybox')
-    b = (a[0])
+    b = (a[0])  # введённый ответ
     print(b)
+    # Вопрос по id_q для уровня Beginner
     ans = Beginner.query.filter_by(id=id_q).first()
-    answer = Member.query.filter_by(level_test="beginner", status="нет").first()
-    if answer.ans1 == None:
-        answer.ans1 = b
-    elif answer.ans2 == None:
-        answer.ans2 = b
-    elif answer.ans3 == None:
-        answer.ans3 = b
-    elif answer.ans4 == None:
-        answer.ans4 = b
-    elif answer.ans5 == None:
-        answer.ans5 = b
-    elif answer.ans6 == None:
-        answer.ans6 = b
-    elif answer.ans7 == None:
-        answer.ans7 = b
-    elif answer.ans8 == None:
-        answer.ans8 = b
-    elif answer.ans9 == None:
-        answer.ans9 = b
-    elif answer.ans10 == None:
-        answer.ans10 = b
+    print(ans)
+    # Пользователь, который проходит тест
+    user = Member.query.filter_by(level_test="beginner", status="нет").first()
+    print(user)
+    # В ответе №1 нет ничего (ещё не решён)
+    if user.ans1 == None:
+        user.ans1 = b  # записываем его ответ
+    # В ответе №2 нет ничего (ещё не решён)
+    elif user.ans2 == None:
+        user.ans2 = b  # записываем его ответ и т.д.
+    elif user.ans3 == None:
+        user.ans3 = b
+    elif user.ans4 == None:
+        user.ans4 = b
+    elif user.ans5 == None:
+        user.ans5 = b
+    elif user.ans6 == None:
+        user.ans6 = b
+    elif user.ans7 == None:
+        user.ans7 = b
+    elif user.ans8 == None:
+        user.ans8 = b
+    elif user.ans9 == None:
+        user.ans9 = b
+    elif user.ans10 == None:
+        user.ans10 = b
 
-    kol = answer.kol_prav
+    kol = user.kol_prav
     int(kol)
+    # Введённый ответ совпадает с правильным?
     if ans.right_answer == b:
+        # Да, увеличиваем счётчик и обновляем данные
         kol += 1
-        answer.kol_prav = kol
-        print(answer.kol_prav)
+        user.kol_prav = kol
+        print(user.kol_prav)
         print("Классно")
     else:
+        # Нет
         print("Не правильно")
     db.session.commit()
     return 0
@@ -127,6 +147,45 @@ def Test2(id_q):
     elif answer.ans9 == None:
         answer.ans9 = b
 
+    elif answer.ans10 == None:
+        answer.ans10 = b
+
+    kol = answer.kol_prav
+    int(kol)
+    if ans.right_answer == b:
+        kol += 1
+        answer.kol_prav = kol
+        print(answer.kol_prav)
+        print("Классно")
+    else:
+        print("Не правильно")
+    db.session.commit()
+    return 0
+
+def Test3(id_q):
+    a = request.form.getlist('mybox')
+    b = (a[0])
+    print(b)
+    ans = Professional.query.filter_by(id=id_q).first()
+    answer = Member.query.filter_by(level_test="professional", status="нет").first()
+    if answer.ans1 == None:
+        answer.ans1 = b
+    elif answer.ans2 == None:
+        answer.ans2 = b
+    elif answer.ans3 == None:
+        answer.ans3 = b
+    elif answer.ans4 == None:
+        answer.ans4 = b
+    elif answer.ans5 == None:
+        answer.ans5 = b
+    elif answer.ans6 == None:
+        answer.ans6 = b
+    elif answer.ans7 == None:
+        answer.ans7 = b
+    elif answer.ans8 == None:
+        answer.ans8 = b
+    elif answer.ans9 == None:
+        answer.ans9 = b
     elif answer.ans10 == None:
         answer.ans10 = b
 
@@ -231,7 +290,6 @@ def home():
     #                    right_answer="Нет")
     # ticket10 = Experienced(question="Как тест", var1="Класс", var2="Хорошо", var3="Норм", var4="Не очень",
     #                    right_answer="Классно")
-    #
     # db.session.add(ticket1)
     # db.session.commit()
     #
@@ -264,9 +322,69 @@ def home():
     #
     # print("Билет добавлен 10")
 
+    # Тест3
+    # ticket1 = Professional(question="Как в языке Python установить библиотеку flask"
+    # " с помощью pip:", single_var="", right_answer="pip install Flask")
+    # ticket2 = Professional(question="Какое ключевое слово в C++ служит для динамического"
+    #     " выделения памяти?", single_var="", right_answer="new")
+    # ticket3 = Professional(question="Как в C++ выделить динамически память для"
+    #     " целочисленного массива array на length элементов?", single_var="",
+    #     right_answer="int *array = new int[length]")
+    # ticket4 = Professional(question="Какое ключевое слово в C++ служит для освобождения"
+    #     "динамически выделенной памяти?", single_var="",
+    #     right_answer="delete")
+    # ticket5 = Professional(question="Что выведет данный код (C++):"
+    #     "std::cout << ((true || false) ? 4 : 5) << std::endl;", single_var="",
+    #     right_answer="4")
+    # ticket6 = Professional(question="Что выведет данный код (C++):"
+    #     "std::cout << ((1 / 3 + 1 - 1) * 3) << std::endl;", single_var="",
+    #     right_answer="0")
+    # ticket7 = Professional(question="Как в Python называются неизменяемые списки?",
+    #     single_var="", right_answer="Кортежи")
+    # ticket8 = Professional(question="Напишите код на языке Python, который преобразует"
+    #     " переменную num_string типа str в тип int.", single_var="",
+    #     right_answer="num_string=int(num_string)")
+    # ticket9 = Professional(question="Какое ключевое слово в Python обозначает"
+    #     " анонимную функцию?", single_var="", right_answer="lambda")
+    # ticket10 = Professional(question="Напишите на языке Python условие с if, которое"
+    #     "будет выполняться только при запуске данного файла .py"
+    #     " и не будет выполняться при импорте. Используйте двойные кавычки", single_var="",
+    #     right_answer='if __name__ == "__main__":')
+    # 
+    # 
+    # 
+    # db.session.add(ticket1)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket2)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket3)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket4)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket5)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket6)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket7)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket8)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket9)
+    # db.session.commit()
+    # 
+    # db.session.add(ticket10)
+    # db.session.commit()
+    # 
+    # print("Билет добавлен 10")
 
-
-    # Перед созданием базы закомментировать этот код и удалить файл с базой
     answer = Member.query.filter_by(status="нет").all()
     for i in range(len(answer)):
         if answer[i].status == "нет":
@@ -277,9 +395,7 @@ def home():
 # Отслеживание страницы с вводом имени для уровня "Новичок"
 @app.route('/beginner', methods=['POST', 'GET'])
 def name1():
-
     level_name = "Новичок"
-
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -293,20 +409,24 @@ def name1():
         except:
             return "Ошибка"
     else:
-        return render_template('name.html', level_name=level_name)
+        return render_template('name.html', level_name = level_name)
 
 # Отслеживание страниц с вопросами для уровня "Новичок"
 @app.route('/beginner/<int:id>', methods=['POST', 'GET'])
 def question1(id):
-
+    level_name = "Новичок"
     quest = Beginner.query.filter_by(id=id).all()
+    print(quest)
+    for el in quest:
+        print(el)
     if request.method == 'POST':
         Test(id)
         if id == 10:  # заключительный вопрос, показываем страницу с результатом
             return redirect('/beginner/10/result')
         else:  # иначе, показываем следующий вопрос
             return redirect(f'/beginner/{id+1}')
-    return render_template('question.html', quest=quest, id=id)
+    # quest - вопрос в БД, id - номер страницы вопроса в браузере
+    return render_template('question.html', quest=quest, id=id, level_name=level_name)
 
 # Отслеживание страницы с результатами для уровня "Новичок"
 @app.route('/beginner/10/result')
@@ -319,16 +439,6 @@ def result():
         # answer.status = "да"
         # db.session.commit()
         return render_template('result.html', data=data)
-    # elif :
-    # try:
-    #     data = answer.kol_prav
-    #     return render_template('result.html', data=data)
-    # except:
-    #     answer = Member.query.filter_by(status="нет").first()
-    #     print(answer)
-        # answer.status = "да"
-        # db.session.commit()
-        # return render_template('index.html')
 
 # Отслеживание страницы с вводом имени для уровня "Опытный"
 @app.route('/experienced', methods=['POST', 'GET'])
@@ -350,7 +460,7 @@ def name2():
 
 # Отслеживание страниц с вопросами для уровня "Опытный"
 @app.route('/experienced/<int:id>', methods=['POST', 'GET'])
-def question11(id):
+def question2(id):
     quest = Experienced.query.filter_by(id=id).all()
     if request.method == 'POST':
         Test2(id)
@@ -362,7 +472,7 @@ def question11(id):
 
 # Отслеживание страницы с результатами для уровня "Опытный"
 @app.route('/experienced/10/result')
-def result2():
+def result2(): # переписать в соответствии с @app.route('/beginner/10/result')
     answer = Member.query.filter_by(status="нет").first()
     data = answer.kol_prav
     answer.status = "да"
@@ -372,8 +482,44 @@ def result2():
 # Отслеживание страницы с вводом имени для уровня "Профи"
 @app.route('/professional', methods=['POST', 'GET'])
 def name3():
-    return render_template('name.html')
+    level_name = "Professional"
+    if request.method == "POST":
+        name = request.form['name_mem']
+        print(name)
+        item = Member(name_member=name, level_test="professional", kol_prav=0, status="нет")
+        print("Прошел")
+        try:
+            db.session.add(item)
+            db.session.commit()
+            return redirect('/professional/1')
+        except:
+            return "Ошибка"
+    else:
+        return render_template('name.html', level_name=level_name)
 
+# Отслеживание страниц с вопросами для уровня "Профи"
+@app.route('/professional/<int:id>', methods=['POST', 'GET'])
+def question3(id):
+    level_name = "Professional"
+    quest = Professional.query.filter_by(id=id).all()
+    if request.method == 'POST':
+        Test3(id)
+        if id == 10:  # заключительный вопрос, показываем страницу с результатом
+            return redirect('/professional/10/result')
+        else:  # иначе, показываем следующий вопрос
+            return redirect(f'/professional/{id+1}')
+    return render_template('question.html', quest=quest, level_name=level_name)
+
+# Отслеживание страницы с результатами для уровня "Профи"
+@app.route('/professional/10/result')
+def result3():
+    answer = Member.query.filter_by(status="нет").first()
+    data = answer.kol_prav
+    answer.status = "да"
+    db.session.commit()
+    return render_template('result.html', data=data)
+
+# Отслеживание страницы "О сайте"
 @app.route('/about')
 def about():
     answer = Member.query.filter_by(status="нет").all()
@@ -382,7 +528,6 @@ def about():
             answer[i].status = "да"
             db.session.commit()
     return render_template('about.html')
-
 
 if __name__ == "__main__":
     app.run(debug=True)
