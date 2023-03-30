@@ -7,9 +7,9 @@
 {% block body %}
 
    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-      <h1 class="display-4 fw-normal">Пройдем тест?</h1>
-      <p class="fs-5 text-muted"> с!</p>
-   </div>
+      <h1 class="display-4 fw-normal">Вопрос {{id}}/10</h1>
+    </div>
+
 <div class="container">
     {% for el in quest %}
     <h4 class="my-0 font-weight-normal">{{el.question}}</h4>  <!-- Вывод вопроса -->
@@ -30,19 +30,21 @@
     {% else %}
         {% for el in quest %}
             <form id="form" method="POST">
+              <div class="container ">
                 <div class="row row-cols-auto row-cols-md-5 mb-3 text-center">
                     <input type="radio"  class="btn-check" id="btn-check-outlined1" name="mybox" value="{{ el.var1 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary" for="btn-check-outlined1">{{el.var1}}</label>
+                        <label class="btn btn-outline-primary mx-5" for="btn-check-outlined1">{{el.var1}}</label>
 
                     <input type="radio"  class="btn-check"  id="btn-check-outlined2" name="mybox" value="{{ el.var2 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary" for="btn-check-outlined2">{{el.var2}}</label>
+                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined2">{{el.var2}}</label>
 
                     <input type="radio"  class="btn-check" id="btn-check-outlined3" name="mybox" value="{{ el.var3 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary" for="btn-check-outlined3">{{el.var3}}</label>
+                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined3">{{el.var3}}</label>
 
                     <input type="radio"  class="btn-check" id="btn-check-outlined4" name="mybox" value="{{ el.var4 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary" for="btn-check-outlined4">{{el.var4}}</label>
+                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined4">{{el.var4}}</label>
                 </div>
+               </div>
                 <br>
                 {% endfor %}
                 <div class="row">
