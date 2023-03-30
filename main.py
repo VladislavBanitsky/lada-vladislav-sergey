@@ -508,7 +508,7 @@ def question3(id):
             return redirect('/professional/10/result')
         else:  # иначе, показываем следующий вопрос
             return redirect(f'/professional/{id+1}')
-    return render_template('question.html', quest=quest, level_name=level_name)
+    return render_template('question.html', quest=quest, level_name=level_name, id=id)
 
 # Отслеживание страницы с результатами для уровня "Профи"
 @app.route('/professional/10/result')
