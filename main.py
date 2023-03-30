@@ -482,7 +482,7 @@ def result2(): # переписать в соответствии с @app.route(
 # Отслеживание страницы с вводом имени для уровня "Профи"
 @app.route('/professional', methods=['POST', 'GET'])
 def name3():
-    level_name = "Professional"
+    level_name = "Профи"
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
