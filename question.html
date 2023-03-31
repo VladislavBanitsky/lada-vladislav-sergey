@@ -16,7 +16,7 @@
     {% endfor %}
     <br>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <!-- Вывод формы ответа для уровня  "Профессионал" -->
+    <!-- Вывод формы ответа для уровня  "Профи" -->
     {% if level_name == "Professional" %}
         <form method="post" class="needs-validation" novalidate>
 
@@ -33,7 +33,7 @@
               <div class="container ">
                 <div class="row row-cols-auto row-cols-md-5 mb-3 text-center">
                     <input type="radio"  class="btn-check" id="btn-check-outlined1" name="mybox" value="{{ el.var1 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary mx-5" for="btn-check-outlined1">{{el.var1}}</label>
+                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined1">{{el.var1}}</label>
 
                     <input type="radio"  class="btn-check"  id="btn-check-outlined2" name="mybox" value="{{ el.var2 }}" autocomplete="off" required>
                         <label class="btn btn-outline-primary mx-4" for="btn-check-outlined2">{{el.var2}}</label>
