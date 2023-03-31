@@ -120,34 +120,34 @@ def Test(id_q, id_m):  # id_q - id вопроса
     db.session.commit()
     return 0
 
-def Test2(id_q):
+def Test2(id_q, id_m):
     a = request.form.getlist('mybox')
     b = (a[0])
     print(b)
     ans = Experienced.query.filter_by(id=id_q).first()
-    answer = Member.query.filter_by(level_test="experienced", status="нет").first()
-    if answer.ans1 == None:
+    answer = Member.query.filter_by(id=id_m, level_test="experienced", status="нет").first()
+    if id_q == 1:
         answer.ans1 = b
-    elif answer.ans2 == None:
+    elif id_q == 2:
         answer.ans2 = b
-    elif answer.ans3 == None:
+    elif id_q == 3:
         answer.ans3 = b
-    elif answer.ans4 == None:
+    elif id_q == 4:
         answer.ans4 = b
-    elif answer.ans5 == None:
+    elif id_q == 5:
         answer.ans5 = b
-    elif answer.ans6 == None:
+    elif id_q == 6:
         answer.ans6 = b
-    elif answer.ans7 == None:
+    elif id_q == 7:
         answer.ans7 = b
 
-    elif answer.ans8 == None:
+    elif id_q == 8:
         answer.ans8 = b
 
-    elif answer.ans9 == None:
+    elif id_q == 9:
         answer.ans9 = b
 
-    elif answer.ans10 == None:
+    elif id_q == 10:
         answer.ans10 = b
 
     kol = answer.kol_prav
@@ -162,31 +162,31 @@ def Test2(id_q):
     db.session.commit()
     return 0
 
-def Test3(id_q):
+def Test3(id_q, id_m):
     a = request.form.getlist('mybox')
     b = (a[0])
     print(b)
     ans = Professional.query.filter_by(id=id_q).first()
-    answer = Member.query.filter_by(level_test="professional", status="нет").first()
-    if answer.ans1 == None:
+    answer = Member.query.filter_by(id=id_m, level_test="professional", status="нет").first()
+    if id_q == 1:
         answer.ans1 = b
-    elif answer.ans2 == None:
+    elif id_q == 2:
         answer.ans2 = b
-    elif answer.ans3 == None:
+    elif id_q == 3:
         answer.ans3 = b
-    elif answer.ans4 == None:
+    elif id_q == 4:
         answer.ans4 = b
-    elif answer.ans5 == None:
+    elif id_q == 5:
         answer.ans5 = b
-    elif answer.ans6 == None:
+    elif id_q == 6:
         answer.ans6 = b
-    elif answer.ans7 == None:
+    elif id_q == 7:
         answer.ans7 = b
-    elif answer.ans8 == None:
+    elif id_q == 8:
         answer.ans8 = b
-    elif answer.ans9 == None:
+    elif id_q == 9:
         answer.ans9 = b
-    elif answer.ans10 == None:
+    elif id_q == 10:
         answer.ans10 = b
 
     kol = answer.kol_prav
@@ -310,6 +310,13 @@ def home():
 @app.route('/beginner', methods=['POST', 'GET'])
 def name1():
     level_name = "Новичок"
+    
+     answer = Member.query.filter_by(status="нет").all()
+    for i in range(len(answer)):
+        if answer[i].status == "нет":
+            answer[i].status = "да"
+            db.session.commit()
+    
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -359,6 +366,13 @@ def result(id_m):
 @app.route('/experienced', methods=['POST', 'GET'])
 def name2():
     level_name = "Опытный"
+    
+     answer = Member.query.filter_by(status="нет").all()
+    for i in range(len(answer)):
+        if answer[i].status == "нет":
+            answer[i].status = "да"
+            db.session.commit()
+    
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -367,38 +381,49 @@ def name2():
         try:
             db.session.add(item)
             db.session.commit()
-            return redirect('/experienced/1')
+             id_m = item.id
+            return redirect(f'/experienced/{id_m}/1')
         except:
             return "Ошибка"
     else:
         return render_template('name.html', level_name=level_name)
 
 # Отслеживание страниц с вопросами для уровня "Опытный"
-@app.route('/experienced/<int:id>', methods=['POST', 'GET'])
-def question2(id):
+@app.route('/experienced/<int:id_m>/<int:id>', methods=['POST', 'GET'])
+def question2(id_m, id):
     level_name = "Опытный"
     quest = Experienced.query.filter_by(id=id).all()
     if request.method == 'POST':
-        Test2(id)
+        Test2(id, id_m)
         if id == 10:  # заключительный вопрос, показываем страницу с результатом
-            return redirect('/experienced/10/result')
+            return redirect(f'/experienced/{id_m}/10/result')
         else:  # иначе, показываем следующий вопрос
-            return redirect(f'/experienced/{id+1}')
+            return redirect(f'/experienced/{id_m}/{id+1}')
     return render_template('question.html', quest=quest, id=id, level_name=level_name)
 
 # Отслеживание страницы с результатами для уровня "Опытный"
-@app.route('/experienced/10/result')
-def result2(): # переписать в соответствии с @app.route('/beginner/10/result')
-    answer = Member.query.filter_by(status="нет").first()
+@app.route('/experienced/<int:id_m>/10/result')
+def result2(id_m): # переписать в соответствии с @app.route('/beginner/10/result')
+    answer = Member.query.filter_by(id=id_m, status="нет").first()
     data = answer.kol_prav
     answer.status = "да"
     db.session.commit()
     return render_template('result.html', data=data)
 
+
+
+
 # Отслеживание страницы с вводом имени для уровня "Профи"
 @app.route('/professional', methods=['POST', 'GET'])
 def name3():
     level_name = "Профи"
+    
+     answer = Member.query.filter_by(status="нет").all()
+    for i in range(len(answer)):
+        if answer[i].status == "нет":
+            answer[i].status = "да"
+            db.session.commit()
+    
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -407,29 +432,31 @@ def name3():
         try:
             db.session.add(item)
             db.session.commit()
-            return redirect('/professional/1')
+            id_m = item.id
+            return redirect(f'/professional/{id_m}/1')
+      
         except:
             return "Ошибка"
     else:
         return render_template('name.html', level_name=level_name)
 
 # Отслеживание страниц с вопросами для уровня "Профи"
-@app.route('/professional/<int:id>', methods=['POST', 'GET'])
-def question3(id):
+@app.route('/professional/<int:id_m>/<int:id>', methods=['POST', 'GET'])
+def question3(id_m, id):
     level_name = "Профи"
     quest = Professional.query.filter_by(id=id).all()
     if request.method == 'POST':
-        Test3(id)
+        Test3(id, id_m)
         if id == 10:  # заключительный вопрос, показываем страницу с результатом
-            return redirect('/professional/10/result')
+            return redirect(f'/professional/{id_m}/10/result')
         else:  # иначе, показываем следующий вопрос
-            return redirect(f'/professional/{id+1}')
+            return redirect(f'/professional/{id_m}/{id+1}')
     return render_template('question.html', quest=quest, id=id, level_name=level_name)
 
 # Отслеживание страницы с результатами для уровня "Профи"
-@app.route('/professional/10/result')
-def result3():
-    answer = Member.query.filter_by(status="нет").first()
+@app.route('/professional/<int:id_m>/10/result')
+def result3(id_m):
+    answer = Member.query.filter_by(id=id_m, status="нет").first()
     data = answer.kol_prav
     answer.status = "да"
     db.session.commit()
