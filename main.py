@@ -72,7 +72,7 @@ class Member(db.Model):
         return f"<profiles {self.id}>"
 
 
-def Test(id_q):  # id_q - id вопроса
+def Test(id_q, id_m):  # id_q - id вопроса
     a = request.form.getlist('mybox')
     b = (a[0])  # введённый ответ
     print(b)
@@ -80,29 +80,29 @@ def Test(id_q):  # id_q - id вопроса
     ans = Beginner.query.filter_by(id=id_q).first()
     print(ans)
     # Пользователь, который проходит тест
-    user = Member.query.filter_by(level_test="beginner", status="нет").first()
+    user = Member.query.filter_by(id=id_m, level_test="beginner", status="нет").first()
     print(user)
     # В ответе №1 нет ничего (ещё не решён)
-    if user.ans1 == None:
+    if id_q == 1:
         user.ans1 = b  # записываем его ответ
     # В ответе №2 нет ничего (ещё не решён)
-    elif user.ans2 == None:
+    elif id_q == 2:
         user.ans2 = b  # записываем его ответ и т.д.
-    elif user.ans3 == None:
+    elif id_q == 3:
         user.ans3 = b
-    elif user.ans4 == None:
+    elif id_q == 4:
         user.ans4 = b
-    elif user.ans5 == None:
+    elif id_q == 5:
         user.ans5 = b
-    elif user.ans6 == None:
+    elif id_q == 6:
         user.ans6 = b
-    elif user.ans7 == None:
+    elif id_q == 7:
         user.ans7 = b
-    elif user.ans8 == None:
+    elif id_q == 8:
         user.ans8 = b
-    elif user.ans9 == None:
+    elif id_q == 9:
         user.ans9 = b
-    elif user.ans10 == None:
+    elif id_q == 10:
         user.ans10 = b
 
     kol = user.kol_prav
@@ -319,33 +319,34 @@ def name1():
         try:
             db.session.add(item)
             db.session.commit()
-            return redirect('/beginner/1')
+            id_m=item.id
+            return redirect(f'/beginner/{id_m}/1')
         except:
             return "Ошибка"
     else:
         return render_template('name.html', level_name = level_name)
 
 # Отслеживание страниц с вопросами для уровня "Новичок"
-@app.route('/beginner/<int:id>', methods=['POST', 'GET'])
-def question1(id):
+@app.route('/beginner/<int:id_m>/<int:id>', methods=['POST', 'GET'])
+def question1(id_m, id):
     level_name = "Новичок"
     quest = Beginner.query.filter_by(id=id).all()
     print(quest)
     for el in quest:
         print(el)
     if request.method == 'POST':
-        Test(id)
+        Test(id, id_m)
         if id == 10:  # заключительный вопрос, показываем страницу с результатом
-            return redirect('/beginner/10/result')
+            return redirect(f'/beginner/{id_m}/10/result')
         else:  # иначе, показываем следующий вопрос
-            return redirect(f'/beginner/{id+1}')
+            return redirect(f'/beginner/{id_m}/{id+1}')
     # quest - вопрос в БД, id - номер страницы вопроса в браузере
     return render_template('question.html', quest=quest, id=id, level_name=level_name)
 
 # Отслеживание страницы с результатами для уровня "Новичок"
-@app.route('/beginner/10/result')
-def result():
-    answer = Member.query.filter_by(status="нет").first()
+@app.route('/beginner/<int:id_m>/10/result')
+def result(id_m):
+    answer = Member.query.filter_by(id=id_m, status="нет").first()
     if answer == None:
         return redirect('/')
     elif answer.kol_prav >= 0:
