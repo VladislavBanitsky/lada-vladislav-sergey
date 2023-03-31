@@ -1,24 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
- <title>IT-тренер</title>
+<title>IT-тренер</title>
 {% endblock %}
 
 {% block body %}
-<!-- <div class="p-3 mb-2 bg-primary">-->
-<!--   <img src="/Applications/Универ/5 семестр/Курсовик/templates/Fon.jpg" style="width:900px;height:600px;">-->
 <div class="container">
     <div class="page-header">
-    <h1 class="display-4 fw-normal text-center">Уровень: {{level_name}}</h1>
+        <h1 class="display-4 fw-normal text-center">Уровень: {{level_name}}</h1>
     </div>
     <h2>Введите свое имя</h2>
     <form method="post" class="needs-validation" novalidate>
-
         <input type="text" class="form-control" name="name_mem" id="name_mem" placeholder="Введите имя" required>
         <div class="invalid-feedback"> Вы не ввели имя </div> <br>
         <button class="btn btn-primary" type="submit"> Начать тест </button>
     </form>
-    </div>
+</div>
 <style>
 .block {
   border: 30px solid transparent;
