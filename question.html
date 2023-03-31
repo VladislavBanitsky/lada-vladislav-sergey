@@ -7,7 +7,8 @@
 {% block body %}
 
    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-      <h1 class="display-4 fw-normal">Вопрос {{id}}/10</h1>
+       <h1 class="display-4 fw-normal">Уровень "{{level_name}}"</h1>
+       <h2> Вопрос {{id}}/10 </h2>
     </div>
 
 <div class="container">
@@ -17,7 +18,7 @@
     <br>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Вывод формы ответа для уровня  "Профи" -->
-    {% if level_name == "Professional" %}
+    {% if level_name == "Профи" %}
         <form method="post" class="needs-validation" novalidate>
 
         <input type="text" class="form-control" name="mybox" id="mybox" placeholder="Введите ответ на вопрос" required>
