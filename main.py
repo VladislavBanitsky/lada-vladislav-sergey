@@ -238,40 +238,11 @@ def home():
     #                    right_answer="Нет")
     # ticket10 = Beginner(question="Как тест", var1="Класс", var2="Хорошо", var3="Норм", var4="Не очень",
     #                    right_answer="Классно")
+    # # Добавление вопросов в базу
+    # AddAndCommitData([ticket1, ticket2, ticket3, ticket4, ticket5,
+    #                   ticket6, ticket7, ticket8, ticket9, ticket10])
     #
-    # db.session.add(ticket1)
-    # db.session.commit()
-    #
-    # db.session.add(ticket2)
-    # db.session.commit()
-    #
-    # db.session.add(ticket3)
-    # db.session.commit()
-    #
-    # db.session.add(ticket4)
-    # db.session.commit()
-    #
-    # db.session.add(ticket5)
-    # db.session.commit()
-    #
-    # db.session.add(ticket6)
-    # db.session.commit()
-    #
-    # db.session.add(ticket7)
-    # db.session.commit()
-    #
-    # db.session.add(ticket8)
-    # db.session.commit()
-    #
-    # db.session.add(ticket9)
-    # db.session.commit()
-    #
-    # db.session.add(ticket10)
-    # db.session.commit()
-    #
-    # print("Билет добавлен 10")
-
-    # Тест2
+    # # Тест2
     # ticket1 = Experienced(question="Выбери лишнее:", var1="Лес", var2="Озеро", var3="Гора", var4="Дом", right_answer="Дом")
     # ticket2 = Experienced(question="Выбери лишнее:", var1="Мышь", var2="Монитор", var3="Клавиатура", var4="Паскаль", right_answer="Паскаль")
     # ticket3 = Experienced(question="Что думаешь?", var1="Все хорошо", var2="Все нормально", var3="Устал", var4="Все скучно",
@@ -290,39 +261,11 @@ def home():
     #                    right_answer="Нет")
     # ticket10 = Experienced(question="Как тест", var1="Класс", var2="Хорошо", var3="Норм", var4="Не очень",
     #                    right_answer="Классно")
-    # db.session.add(ticket1)
-    # db.session.commit()
+    # # Добавление вопросов в базу
+    # AddAndCommitData([ticket1, ticket2, ticket3, ticket4, ticket5,
+    #                   ticket6, ticket7, ticket8, ticket9, ticket10])
     #
-    # db.session.add(ticket2)
-    # db.session.commit()
-    #
-    # db.session.add(ticket3)
-    # db.session.commit()
-    #
-    # db.session.add(ticket4)
-    # db.session.commit()
-    #
-    # db.session.add(ticket5)
-    # db.session.commit()
-    #
-    # db.session.add(ticket6)
-    # db.session.commit()
-    #
-    # db.session.add(ticket7)
-    # db.session.commit()
-    #
-    # db.session.add(ticket8)
-    # db.session.commit()
-    #
-    # db.session.add(ticket9)
-    # db.session.commit()
-    #
-    # db.session.add(ticket10)
-    # db.session.commit()
-    #
-    # print("Билет добавлен 10")
-
-    # Тест3
+    # # Тест3
     # ticket1 = Professional(question="Как в языке Python установить библиотеку flask"
     # " с помощью pip:", single_var="", right_answer="pip install Flask")
     # ticket2 = Professional(question="Какое ключевое слово в C++ служит для динамического"
@@ -331,12 +274,12 @@ def home():
     #     " целочисленного массива array на length элементов?", single_var="",
     #     right_answer="int *array = new int[length]")
     # ticket4 = Professional(question="Какое ключевое слово в C++ служит для освобождения"
-    #     "динамически выделенной памяти?", single_var="",
+    #     " динамически выделенной памяти?", single_var="",
     #     right_answer="delete")
-    # ticket5 = Professional(question="Что выведет данный код (C++):"
+    # ticket5 = Professional(question="Что выведет данный код (C++): "
     #     "std::cout << ((true || false) ? 4 : 5) << std::endl;", single_var="",
     #     right_answer="4")
-    # ticket6 = Professional(question="Что выведет данный код (C++):"
+    # ticket6 = Professional(question="Что выведет данный код (C++): "
     #     "std::cout << ((1 / 3 + 1 - 1) * 3) << std::endl;", single_var="",
     #     right_answer="0")
     # ticket7 = Professional(question="Как в Python называются неизменяемые списки?",
@@ -347,43 +290,14 @@ def home():
     # ticket9 = Professional(question="Какое ключевое слово в Python обозначает"
     #     " анонимную функцию?", single_var="", right_answer="lambda")
     # ticket10 = Professional(question="Напишите на языке Python условие с if, которое"
-    #     "будет выполняться только при запуске данного файла .py"
-    #     " и не будет выполняться при импорте. Используйте двойные кавычки", single_var="",
+    #     " будет выполняться только при запуске данного файла .py"
+    #     " и не будет выполняться при импорте. Используйте двойные кавычки."
+    #     " Ответ запишите в виде if <условие>:", single_var="",
     #     right_answer='if __name__ == "__main__":')
-    # 
-    # 
-    # 
-    # db.session.add(ticket1)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket2)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket3)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket4)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket5)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket6)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket7)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket8)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket9)
-    # db.session.commit()
-    # 
-    # db.session.add(ticket10)
-    # db.session.commit()
-    # 
-    # print("Билет добавлен 10")
+    #
+    # # Добавление вопросов в базу
+    # AddAndCommitData([ticket1, ticket2, ticket3, ticket4, ticket5,
+    #                   ticket6, ticket7, ticket8, ticket9, ticket10])
 
     answer = Member.query.filter_by(status="нет").all()
     for i in range(len(answer)):
@@ -461,6 +375,7 @@ def name2():
 # Отслеживание страниц с вопросами для уровня "Опытный"
 @app.route('/experienced/<int:id>', methods=['POST', 'GET'])
 def question2(id):
+    level_name = "Опытный"
     quest = Experienced.query.filter_by(id=id).all()
     if request.method == 'POST':
         Test2(id)
@@ -468,7 +383,7 @@ def question2(id):
             return redirect('/experienced/10/result')
         else:  # иначе, показываем следующий вопрос
             return redirect(f'/experienced/{id+1}')
-    return render_template('question.html', quest=quest, id=id)
+    return render_template('question.html', quest=quest, id=id, level_name=level_name)
 
 # Отслеживание страницы с результатами для уровня "Опытный"
 @app.route('/experienced/10/result')
@@ -500,7 +415,7 @@ def name3():
 # Отслеживание страниц с вопросами для уровня "Профи"
 @app.route('/professional/<int:id>', methods=['POST', 'GET'])
 def question3(id):
-    level_name = "Professional"
+    level_name = "Профи"
     quest = Professional.query.filter_by(id=id).all()
     if request.method == 'POST':
         Test3(id)
@@ -508,7 +423,7 @@ def question3(id):
             return redirect('/professional/10/result')
         else:  # иначе, показываем следующий вопрос
             return redirect(f'/professional/{id+1}')
-    return render_template('question.html', quest=quest, level_name=level_name, id=id)
+    return render_template('question.html', quest=quest, id=id, level_name=level_name)
 
 # Отслеживание страницы с результатами для уровня "Профи"
 @app.route('/professional/10/result')
@@ -528,6 +443,13 @@ def about():
             answer[i].status = "да"
             db.session.commit()
     return render_template('about.html')
+
+# Функция для добавления данных в базу
+def AddAndCommitData(listTickets):
+    for ticket in listTickets:
+        db.session.add(ticket)
+        db.session.commit()
+    print("Билет добавлен 10")
 
 if __name__ == "__main__":
     app.run(debug=True)
