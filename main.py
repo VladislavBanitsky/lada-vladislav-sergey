@@ -83,26 +83,26 @@ def Test(id_q, id_m):  # id_q - id вопроса
     user = Member.query.filter_by(id=id_m, level_test="beginner", status="нет").first()
     print(user)
     # В ответе №1 нет ничего (ещё не решён)
-    if id_q == 1:
+    if user.ans1 == 1:
         user.ans1 = b  # записываем его ответ
     # В ответе №2 нет ничего (ещё не решён)
-    elif id_q == 2:
+    elif user.ans2 == 2:
         user.ans2 = b  # записываем его ответ и т.д.
-    elif id_q == 3:
+    elif user.ans3 == 3:
         user.ans3 = b
-    elif id_q == 4:
+    elif user.ans4 == 4:
         user.ans4 = b
-    elif id_q == 5:
+    elif user.ans5 == 5:
         user.ans5 = b
-    elif id_q == 6:
+    elif user.ans6 == 6:
         user.ans6 = b
-    elif id_q == 7:
+    elif user.ans7 == 7:
         user.ans7 = b
-    elif id_q == 8:
+    elif user.ans8 == 8:
         user.ans8 = b
-    elif id_q == 9:
+    elif user.ans9 == 9:
         user.ans9 = b
-    elif id_q == 10:
+    elif user.ans10 == 10:
         user.ans10 = b
 
     kol = user.kol_prav
@@ -126,28 +126,28 @@ def Test2(id_q, id_m):
     print(b)
     ans = Experienced.query.filter_by(id=id_q).first()
     answer = Member.query.filter_by(id=id_m, level_test="experienced", status="нет").first()
-    if id_q == 1:
+    if answer.ans1 == 1:
         answer.ans1 = b
-    elif id_q == 2:
+    elif answer.ans2 == 2:
         answer.ans2 = b
-    elif id_q == 3:
+    elif answer.ans3 == 3:
         answer.ans3 = b
-    elif id_q == 4:
+    elif answer.ans4 == 4:
         answer.ans4 = b
-    elif id_q == 5:
+    elif answer.ans5 == 5:
         answer.ans5 = b
-    elif id_q == 6:
+    elif answer.ans6 == 6:
         answer.ans6 = b
-    elif id_q == 7:
+    elif answer.ans7 == 7:
         answer.ans7 = b
 
-    elif id_q == 8:
+    elif answer.ans8 == 8:
         answer.ans8 = b
 
-    elif id_q == 9:
+    elif answer.ans9 == 9:
         answer.ans9 = b
 
-    elif id_q == 10:
+    elif answer.ans10 == 10:
         answer.ans10 = b
 
     kol = answer.kol_prav
@@ -168,25 +168,25 @@ def Test3(id_q, id_m):
     print(b)
     ans = Professional.query.filter_by(id=id_q).first()
     answer = Member.query.filter_by(id=id_m, level_test="professional", status="нет").first()
-    if id_q == 1:
+    if answer.ans1 == 1:
         answer.ans1 = b
-    elif id_q == 2:
+    elif answer.ans2 == 2:
         answer.ans2 = b
-    elif id_q == 3:
+    elif answer.ans3 == 3:
         answer.ans3 = b
-    elif id_q == 4:
+    elif answer.ans4 == 4:
         answer.ans4 = b
-    elif id_q == 5:
+    elif answer.ans5 == 5:
         answer.ans5 = b
-    elif id_q == 6:
+    elif answer.ans6 == 6:
         answer.ans6 = b
-    elif id_q == 7:
+    elif answer.ans7 == 7:
         answer.ans7 = b
-    elif id_q == 8:
+    elif answer.ans8 == 8:
         answer.ans8 = b
-    elif id_q == 9:
+    elif answer.ans9 == 9:
         answer.ans9 = b
-    elif id_q == 10:
+    elif answer.ans10 == 10:
         answer.ans10 = b
 
     kol = answer.kol_prav
@@ -310,13 +310,11 @@ def home():
 @app.route('/beginner', methods=['POST', 'GET'])
 def name1():
     level_name = "Новичок"
-    
-     answer = Member.query.filter_by(status="нет").all()
+    answer = Member.query.filter_by(status="нет").all()
     for i in range(len(answer)):
         if answer[i].status == "нет":
             answer[i].status = "да"
             db.session.commit()
-    
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -326,7 +324,7 @@ def name1():
         try:
             db.session.add(item)
             db.session.commit()
-            id_m=item.id
+            id_m = item.id
             return redirect(f'/beginner/{id_m}/1')
         except:
             return "Ошибка"
@@ -358,21 +356,19 @@ def result(id_m):
         return redirect('/')
     elif answer.kol_prav >= 0:
         data = answer.kol_prav
-        # answer.status = "да"
-        # db.session.commit()
+        answer.status = "да"
+        db.session.commit()
         return render_template('result.html', data=data)
 
 # Отслеживание страницы с вводом имени для уровня "Опытный"
 @app.route('/experienced', methods=['POST', 'GET'])
 def name2():
     level_name = "Опытный"
-    
-     answer = Member.query.filter_by(status="нет").all()
+    answer = Member.query.filter_by(status="нет").all()
     for i in range(len(answer)):
         if answer[i].status == "нет":
             answer[i].status = "да"
             db.session.commit()
-    
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -381,7 +377,7 @@ def name2():
         try:
             db.session.add(item)
             db.session.commit()
-             id_m = item.id
+            id_m = item.id
             return redirect(f'/experienced/{id_m}/1')
         except:
             return "Ошибка"
@@ -410,20 +406,15 @@ def result2(id_m): # переписать в соответствии с @app.ro
     db.session.commit()
     return render_template('result.html', data=data)
 
-
-
-
 # Отслеживание страницы с вводом имени для уровня "Профи"
 @app.route('/professional', methods=['POST', 'GET'])
 def name3():
     level_name = "Профи"
-    
-     answer = Member.query.filter_by(status="нет").all()
+    answer = Member.query.filter_by(status="нет").all()
     for i in range(len(answer)):
         if answer[i].status == "нет":
             answer[i].status = "да"
             db.session.commit()
-    
     if request.method == "POST":
         name = request.form['name_mem']
         print(name)
@@ -434,7 +425,6 @@ def name3():
             db.session.commit()
             id_m = item.id
             return redirect(f'/professional/{id_m}/1')
-      
         except:
             return "Ошибка"
     else:
