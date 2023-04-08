@@ -16,6 +16,7 @@
     <h4 class="my-0 font-weight-normal">{{el.question}}</h4>  <!-- Вывод вопроса -->
     {% endfor %}
     <br>
+    <!-- Настройка отображения кнопок -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Вывод формы ответа для уровня  "Профи" -->
     {% if level_name == "Профи" %}
@@ -54,6 +55,28 @@
     {% endif %}
 </div>
 
+<!-- Подсветка правильных/неправильных ответов -->
+<script>
+document.addEventListener('DOMContentLoaded', docReady);
+function docReady()
+{
+    document.getElementsByTagName('button')[5].addEventListener('click', showCorrectAnswer);
+}
+function showCorrectAnswer()
+{
+    if(document.querySelector('input[type=radio]==').value == el.right_answer)
+    {
+        document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = 'green';
+    }
+    else
+    {
+        document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = 'red';
+        document.querySelector('input[value=el.right_answer]').nextElementSibling.style.backgroundColor = 'green';
+    }
+}
+</script>
+
+<!-- Проверка, ответил ли пользователь на текущий вопрос перед нажатием кнопки -->
 <script>
 (function() {
   'use strict';
