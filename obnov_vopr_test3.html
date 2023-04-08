@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ <title> Вопросы для обновления (тест - ввод ответа)</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Обновление вопроса в тесте  ввод ответа</h1>
+    <br>
+    <div class="alert alert-primary" role="alert">
+        Для ввода программного кода не используйте пробелы!
+    </div>
+    <br>
+  <form method="post" class="needs-validation" novalidate>
+
+        <input type="number" class="form-control" name="n_vopros" id="n_vopros" placeholder="Введите номер вопроса, который нужно заменить (1-10)" required>
+        <div class="invalid-feedback"> Вы не ввели номер вопроса </div> <br>
+
+        <input type="text" class="form-control" name="vopros" id="vopros" placeholder="Введите вопрос" required>
+        <div class="invalid-feedback"> Вы не ввели вопрос </div> <br>
+
+        <input type="text" class="form-control" name="right_ans" id="right_ans" placeholder="Введите ответа" required>
+        <div class="invalid-feedback"> Вы не ввели ответ </div> <br>
+
+        <input type="text" class="form-control" name="password" id="password" placeholder="Введите пароль" required>
+         <div class="invalid-feedback"> Вы не ввели пароль </div> <br>
+
+        <button class="btn btn-primary" type="submit"> Изменить вопрос </button>
+    </form>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}

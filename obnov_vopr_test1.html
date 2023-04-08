@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ <title> Вопросы для обновления 1/4</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Обновление вопроса в тесте 1/4</h1>
+ <br>
+  <form method="post" class="needs-validation" novalidate>
+
+       <input type="number" class="form-control" name="type" id="type" placeholder="Введите тип теста (Beginner = 1/Experienced = 2)" required>
+        <div class="invalid-feedback"> Вы не ввели тип теста </div> <br>
+
+        <input type="number" class="form-control" name="n_vopros" id="n_vopros" placeholder="Введите номер вопроса, который нужно заменить (1-10)" required>
+        <div class="invalid-feedback"> Вы не ввели номер вопроса </div> <br>
+
+        <input type="text" class="form-control" name="vopros" id="vopros" placeholder="Введите вопрос" required>
+        <div class="invalid-feedback"> Вы не ввели вопрос </div> <br>
+
+        <input type="text" class="form-control" name="ans1" id="ans1" placeholder="Введите первый варинт ответа" required>
+        <div class="invalid-feedback"> Вы не ввели первый варинт ответа </div> <br>
+
+        <input type="text" class="form-control" name="ans2" id="ans2" placeholder="Введите второй вариант ответа" required>
+        <div class="invalid-feedback"> Вы не ввели второй вариант ответа </div> <br>
+
+        <input type="text" class="form-control" name="ans3" id="ans3" placeholder="Введите третий вариант ответа" required>
+        <div class="invalid-feedback"> Вы не ввели третий вариант ответа </div> <br>
+
+        <input type="text" class="form-control" name="ans4" id="ans4" placeholder="Введите четвертый вариант ответа" required>
+        <div class="invalid-feedback"> Вы не ввели четвертый вариант ответа </div> <br>
+
+        <input type="text" class="form-control" name="right_ans" id="right_ans" placeholder="Введите правильный вариант ответа" required>
+        <div class="invalid-feedback"> Вы не ввели правильный вариант ответа </div> <br>
+
+        <input type="text" class="form-control" name="password" id="password" placeholder="Введите пароль" required>
+         <div class="invalid-feedback"> Вы не ввели пароль </div> <br>
+
+        <button class="btn btn-primary" type="submit"> Изменить вопрос </button>
+    </form>
+
+
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}
