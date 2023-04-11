@@ -1,78 +1,98 @@
 {% extends 'base.html' %}
 
 {% block title %}
- <title>IT-тренер</title>
+<title>IT-тренер</title>
 {% endblock %}
 
 {% block body %}
 
-   <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-       <h1 class="display-4 fw-normal">Уровень "{{level_name}}"</h1>
-       <h2> Вопрос {{id}}/10 </h2>
-    </div>
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal">Уровень "{{level_name}}"</h1>
+    <h2> Вопрос {{id}}/10 </h2>
+</div>
 
 <div class="container">
     {% for el in quest %}
     <h4 class="my-0 font-weight-normal">{{el.question}}</h4>  <!-- Вывод вопроса -->
     {% endfor %}
     <br>
+    <!-- Настройка отображения кнопок -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Вывод формы ответа для уровня  "Профи" -->
     {% if level_name == "Профи" %}
-        <form method="post" class="needs-validation" novalidate>
+    <form method="post" class="needs-validation" novalidate>
         <input type="text" class="form-control" name="mybox" id="mybox" placeholder="Введите ответ на вопрос" required>
         <div class="invalid-feedback"> Вы не ввели ответ </div> <br>
         <div class="text-center">
             <button class="btn btn-outline-success btn-lg" type="submit"> Ответить </button>
         </div>
-        </form>
+    </form>
     <!-- Вывод формы ответа для уровней  "Новичок" и "Опытный" -->
     {% else %}
-        {% for el in quest %}
-            <form id="form" method="POST">
-                <div class="row row-cols-auto row-cols-md-5 mb-3 text-center">
-                    <input type="radio"  class="btn-check" id="btn-check-outlined1" name="mybox" value="{{ el.var1 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined1">{{el.var1}}</label>
-
-                    <input type="radio"  class="btn-check"  id="btn-check-outlined2" name="mybox" value="{{ el.var2 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary mx-5" for="btn-check-outlined2">{{el.var2}}</label>
-
-                    <input type="radio"  class="btn-check" id="btn-check-outlined3" name="mybox" value="{{ el.var3 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined3">{{el.var3}}</label>
-
-                    <input type="radio"  class="btn-check" id="btn-check-outlined4" name="mybox" value="{{ el.var4 }}" autocomplete="off" required>
-                        <label class="btn btn-outline-primary mx-4" for="btn-check-outlined4">{{el.var4}}</label>
-                </div>
-                <br>
-                {% endfor %}
-
-                <div class="row">
-                    <div class="text-center">
-                        <button class="btn btn-outline-success btn-lg" type="submit"> Ответить </button>
-                    </div>
-                </div>
-
-            </form>
+    {% for el in quest %}
+    <form id="form" method="POST">
+        <div class="block">
+            <div class="row row-cols-auto row-cols-md-5 mb-3 text-center">
+                <input type="radio"  class="btn-check" id="btn-check-outlined1" name="mybox" value="{{el.var1}}" autocomplete="off" required>
+                <label class="btn btn-outline-primary mx-4" for="btn-check-outlined1">{{el.var1}}</label>
+                <input type="radio"  class="btn-check"  id="btn-check-outlined2" name="mybox" value="{{el.var2}}" autocomplete="off" required>
+                <label class="btn btn-outline-primary mx-4" for="btn-check-outlined2">{{el.var2}}</label>
+                <input type="radio"  class="btn-check" id="btn-check-outlined3" name="mybox" value="{{el.var3}}" autocomplete="off" required>
+                <label class="btn btn-outline-primary mx-4" for="btn-check-outlined3">{{el.var3}}</label>
+                <input type="radio"  class="btn-check" id="btn-check-outlined4" name="mybox" value="{{el.var4}}" autocomplete="off" required>
+                <label class="btn btn-outline-primary mx-4" for="btn-check-outlined4">{{el.var4}}</label>
+                <i></i>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+        <div class="row">
+            <div class="text-center">
+                <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос > </button>
+            </div>
+        </div>
+    </form>
     {% endif %}
 </div>
 
+<!-- Блокировка повторного ввода -->
+<style>
+.block {
+  position:relative;
+}
+
+.block input:checked ~ i {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+}
+</style>
+
+<!-- Подсветка правильных/неправильных ответов -->
 <script>
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
+document.addEventListener('DOMContentLoaded', docReady);
+function docReady()
+{
+    document.getElementsByTagName('input')[0].addEventListener('click', showCorrectAnswer);
+    document.getElementsByTagName('input')[1].addEventListener('click', showCorrectAnswer);
+    document.getElementsByTagName('input')[2].addEventListener('click', showCorrectAnswer);
+    document.getElementsByTagName('input')[3].addEventListener('click', showCorrectAnswer);
+}
+function showCorrectAnswer()
+{
+    // Выбран правильный ответ, подсвечиваем его зелёным
+    if(document.querySelector('input[type=radio]:checked').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
+    {
+        document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#6cf540';
+    }
+    // Выбран неправильный ответ, подсвечиваем его красным и правильный ответ - зелёным
+    else
+    {
+        document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#f54040';
+        document.querySelector('input[value={% for el in quest %} "{{el.right_answer}}" {% endfor %}]').nextElementSibling.style.backgroundColor = '#6cf540';
+    }
+}
 </script>
 {% endblock %}
