@@ -26,7 +26,7 @@
         <p id="right_ans"></p>
         <div class="invalid-feedback"> Вы не ввели ответ </div> <br>
         <div class="text-center">
-            <button class="btn btn-outline-success btn-lg" type="submit"> Ответить </button>
+            <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос >> </button>
         </div>
     </form>
     <!-- Вывод формы ответа для уровней  "Новичок" и "Опытный" -->
@@ -47,7 +47,7 @@
         {% endfor %}
         <div class="row">
             <div class="text-center">
-                <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос > </button>
+                <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос >> </button>
             </div>
         </div>
     </form>
@@ -72,13 +72,13 @@ function showCorrectAnswer()
     // Выбран правильный ответ, подсвечиваем его зелёным
     if(document.querySelector('input[type=text]').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
     {
-        document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#6cf540';
+        document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#bbfac9';
         document.getElementById("right_ans").innerHTML = "Верно!"
     }
     // Выбран неправильный ответ, подсвечиваем его красным и выводим правильный ответ
     else
     {
-        document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#f54040';
+        document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#faacc4';
         document.getElementById("right_ans").innerHTML = {% for el in quest %} "{{el.right_answer}}" {% endfor %};
     }
 {% else %} // подсветка для уровней "Новичок" и "Опытный"
