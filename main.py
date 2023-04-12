@@ -42,8 +42,6 @@ class Professional(db.Model):  # Таблица для вопросов уров
     __tablename__ = 'professional'
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.Text, nullable=False)
-    # Одна переменная для вопроса с вводом ответа
-    # single_var = db.Column(db.Text, nullable=True)
     # Переменная с правильным ответом
     right_answer = db.Column(db.Text, nullable=False)
 
@@ -206,12 +204,10 @@ def Test3(id_q, id_m):
 # Отслеживание главной страницы
 @app.route('/')
 def home():
-
     # раскомментировать эти 3 строки для создания базы и потом снова закомментировать
     # with app.app_context():
     #     db.create_all()
     #     db.session.commit()
-
 
     # answer = Beginner.query.filter_by(id=10).first()
     # answer.var4 = "Ме"
@@ -219,8 +215,6 @@ def home():
     # db.session.commit()
     # print(answer.ans1)
     # print(answer.kol_prav)
-
-
 
     # Тест 1
     # Раскомментировать этот код для создания вопросов,
@@ -246,7 +240,7 @@ def home():
     # # Добавление вопросов в базу
     # AddAndCommitData([ticket1, ticket2, ticket3, ticket4, ticket5,
     #                   ticket6, ticket7, ticket8, ticket9, ticket10])
-    #
+
     # # Тест2
     # ticket1 = Experienced(question="Выбери лишнее:", var1="Лес", var2="Озеро", var3="Гора", var4="Дом", right_answer="Дом")
     # ticket2 = Experienced(question="Выбери лишнее:", var1="Мышь", var2="Монитор", var3="Клавиатура", var4="Паскаль", right_answer="Паскаль")
@@ -272,32 +266,32 @@ def home():
     #
     # # Тест3
     # ticket1 = Professional(question="Как в языке Python установить библиотеку flask"
-    # " с помощью pip:", single_var="", right_answer="pip install Flask")
+    # " с помощью pip:", right_answer="pip install Flask")
     # ticket2 = Professional(question="Какое ключевое слово в C++ служит для динамического"
-    #     " выделения памяти?", single_var="", right_answer="new")
+    #     " выделения памяти?", right_answer="new")
     # ticket3 = Professional(question="Как в C++ выделить динамически память для"
-    #     " целочисленного массива array на length элементов?", single_var="",
+    #     " целочисленного массива array на length элементов?",
     #     right_answer="int *array = new int[length]")
     # ticket4 = Professional(question="Какое ключевое слово в C++ служит для освобождения"
-    #     " динамически выделенной памяти?", single_var="",
+    #     " динамически выделенной памяти?",
     #     right_answer="delete")
     # ticket5 = Professional(question="Что выведет данный код (C++): "
-    #     "std::cout << ((true || false) ? 4 : 5) << std::endl;", single_var="",
+    #     "std::cout << ((true || false) ? 4 : 5) << std::endl;",
     #     right_answer="4")
     # ticket6 = Professional(question="Что выведет данный код (C++): "
-    #     "std::cout << ((1 / 3 + 1 - 1) * 3) << std::endl;", single_var="",
+    #     "std::cout << ((1 / 3 + 1 - 1) * 3) << std::endl;",
     #     right_answer="0")
     # ticket7 = Professional(question="Как в Python называются неизменяемые списки?",
     #     single_var="", right_answer="Кортежи")
     # ticket8 = Professional(question="Напишите код на языке Python, который преобразует"
-    #     " переменную num_string типа str в тип int.", single_var="",
+    #     " переменную num_string типа str в тип int.",
     #     right_answer="num_string=int(num_string)")
     # ticket9 = Professional(question="Какое ключевое слово в Python обозначает"
-    #     " анонимную функцию?", single_var="", right_answer="lambda")
+    #     " анонимную функцию?", right_answer="lambda")
     # ticket10 = Professional(question="Напишите на языке Python условие с if, которое"
     #     " будет выполняться только при запуске данного файла .py"
     #     " и не будет выполняться при импорте. Используйте двойные кавычки."
-    #     " Ответ запишите в виде if <условие>:", single_var="",
+    #     " Ответ запишите в виде if <условие>:",
     #     right_answer='if __name__ == "__main__":')
     #
     # # Добавление вопросов в базу
@@ -342,10 +336,10 @@ def name1():
 @app.route('/beginner/<int:id_m>/<int:id>', methods=['POST', 'GET'])
 def question1(id_m, id):
     level_name = "Новичок"
-    quest = Beginner.query.filter_by(id=id).all()
-    # print(quest)
-    # for el in quest:
-    #     print(el)
+    quest = Beginner.query.filter_by(id=id).all()  # записываем в список
+    print(type(quest))
+    for el in quest:
+        print(el.right_answer)
     if request.method == 'POST':
         Test(id, id_m)
         if id == 10:  # заключительный вопрос, показываем страницу с результатом
