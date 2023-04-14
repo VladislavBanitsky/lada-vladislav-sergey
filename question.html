@@ -20,13 +20,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Вывод формы ответа для уровня  "Профи" -->
     {% if level_name == "Профи" %}
-    <form method="post" class="needs-validation" novalidate>
+    <form id="form" method="post" class="needs-validation" novalidate>
         <input type="text" class="form-control" name="mybox" id="mybox" placeholder="Введите ответ на вопрос" required>
         <!-- Для вывода правильного ответа -->
         <p id="right_ans"></p>
         <div class="invalid-feedback"> Вы не ввели ответ </div> <br>
         <div class="text-center">
-            <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос >> </button>
+            <button class="btn btn-outline-success btn-lg" type="button"> Выбрать ответ </button>
         </div>
     </form>
     <!-- Вывод формы ответа для уровней  "Новичок" и "Опытный" -->
@@ -47,7 +47,7 @@
         {% endfor %}
         <div class="row">
             <div class="text-center">
-                <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос >> </button>
+                <button class="btn btn-outline-success btn-lg" type="button"> Выбрать ответ  </button>
             </div>
         </div>
     </form>
@@ -61,14 +61,18 @@ function docReady()
 {
 {% if level_name == "Профи" %}
     document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
-{% else %}
+{% else %} 
     document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
 {% endif %}
 }
 
 function showCorrectAnswer()
 {
-{% if level_name == "Профи" %}  // подсветка для уровня "Профи"
+    if (document.getElementsByTagName('button')[0].textContent == 'Следующий вопрос')
+    {
+    form.submit();
+    }
+{% if level_name == "Профи"  %}  // подсветка для уровня "Профи"
     // Выбран правильный ответ, подсвечиваем его зелёным
     if(document.querySelector('input[type=text]').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
     {
@@ -81,11 +85,13 @@ function showCorrectAnswer()
         document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#faacc4';
         document.getElementById("right_ans").innerHTML = {% for el in quest %} "{{el.right_answer}}" {% endfor %};
     }
+    document.getElementsByTagName('button')[0].textContent = 'Следующий вопрос';
 {% else %} // подсветка для уровней "Новичок" и "Опытный"
     // Выбран правильный ответ, подсвечиваем его зелёным
     if(document.querySelector('input[type=radio]:checked').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
     {
         document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#bbfac9';
+
     }
     // Выбран неправильный ответ, подсвечиваем его красным и правильный ответ - зелёным
     else
@@ -93,6 +99,7 @@ function showCorrectAnswer()
         document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#faacc4';
         document.querySelector('input[value={% for el in quest %} "{{el.right_answer}}" {% endfor %}]').nextElementSibling.style.backgroundColor = '#bbfac9';
     }
+    document.getElementsByTagName('button')[0].textContent = 'Следующий вопрос';
 {% endif %}
 }
 </script>
