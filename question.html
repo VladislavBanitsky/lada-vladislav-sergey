@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>IT-тренер</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal">Уровень "{{level_name}}"</h1>
+    <h2> Вопрос {{id}}/10 </h2>
+</div>
+
+<div class="container">
+    {% for el in quest %}
+    <h4 class="my-0 font-weight-normal">{{el.question}}</h4>  <!-- Вывод вопроса -->
+    {% endfor %}
+    <br>
+    <!-- Настройка отображения кнопок -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Вывод формы ответа для уровня  "Профи" -->
+    {% if level_name == "Профи" %}
+    <form method="post" class="needs-validation" novalidate>
+        <input type="text" class="form-control" name="mybox" id="mybox" placeholder="Введите ответ на вопрос" required>
+        <!-- Для вывода правильного ответа -->
+        <p id="right_ans"></p>
+        <div class="invalid-feedback"> Вы не ввели ответ </div> <br>
+        <div class="text-center">
+            <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос >> </button>
+        </div>
+    </form>
+    <!-- Вывод формы ответа для уровней  "Новичок" и "Опытный" -->
+    {% else %}
+    {% for el in quest %}
+    <form id="form" method="POST">
+        <div class="row row-cols-auto row-cols-md-5 mb-3 text-center">
+            <input type="radio"  class="btn-check" id="btn-check-outlined1" name="mybox" value="{{el.var1}}" autocomplete="off" required>
+            <label class="btn btn-outline-primary mx-4" for="btn-check-outlined1">{{el.var1}}</label>
+            <input type="radio"  class="btn-check"  id="btn-check-outlined2" name="mybox" value="{{el.var2}}" autocomplete="off" required>
+            <label class="btn btn-outline-primary mx-4" for="btn-check-outlined2">{{el.var2}}</label>
+            <input type="radio"  class="btn-check" id="btn-check-outlined3" name="mybox" value="{{el.var3}}" autocomplete="off" required>
+            <label class="btn btn-outline-primary mx-4" for="btn-check-outlined3">{{el.var3}}</label>
+            <input type="radio"  class="btn-check" id="btn-check-outlined4" name="mybox" value="{{el.var4}}" autocomplete="off" required>
+            <label class="btn btn-outline-primary mx-4" for="btn-check-outlined4">{{el.var4}}</label>
+        </div>
+        <br>
+        {% endfor %}
+        <div class="row">
+            <div class="text-center">
+                <button class="btn btn-outline-success btn-lg" type="submit"> Следующий вопрос >> </button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+</div>
+
+<!-- Подсветка правильных/неправильных ответов -->
+<script>
+document.addEventListener('DOMContentLoaded', docReady);
+function docReady()
+{
+{% if level_name == "Профи" %}
+    document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
+{% else %}
+    document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
+{% endif %}
+}
+
+function showCorrectAnswer()
+{
+{% if level_name == "Профи" %}  // подсветка для уровня "Профи"
+    // Выбран правильный ответ, подсвечиваем его зелёным
+    if(document.querySelector('input[type=text]').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
+    {
+        document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#bbfac9';
+        document.getElementById("right_ans").innerHTML = "Верно!"
+    }
+    // Выбран неправильный ответ, подсвечиваем его красным и выводим правильный ответ
+    else
+    {
+        document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#faacc4';
+        document.getElementById("right_ans").innerHTML = {% for el in quest %} "{{el.right_answer}}" {% endfor %};
+    }
+{% else %} // подсветка для уровней "Новичок" и "Опытный"
+    // Выбран правильный ответ, подсвечиваем его зелёным
+    if(document.querySelector('input[type=radio]:checked').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
+    {
+        document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#bbfac9';
+    }
+    // Выбран неправильный ответ, подсвечиваем его красным и правильный ответ - зелёным
+    else
+    {
+        document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#faacc4';
+        document.querySelector('input[value={% for el in quest %} "{{el.right_answer}}" {% endfor %}]').nextElementSibling.style.backgroundColor = '#bbfac9';
+    }
+{% endif %}
+}
+</script>
+{% endblock %}
