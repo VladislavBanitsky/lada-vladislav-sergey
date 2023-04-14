@@ -61,7 +61,7 @@ function docReady()
 {
 {% if level_name == "Профи" %}
     document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
-{% else %} 
+{% else %}
     document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
 {% endif %}
 }
@@ -76,7 +76,7 @@ function showCorrectAnswer()
         form.submit();
     }
     // Выбран правильный ответ, подсвечиваем его зелёным
-    if(document.querySelector('input[type=text]').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
+    if(document.querySelector('input[type=text]').value.toLowerCase() == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
     {
         document.querySelector('input[type=text]').nextElementSibling.style.backgroundColor = '#bbfac9';
         document.getElementById("right_ans").innerHTML = "Верно!"
