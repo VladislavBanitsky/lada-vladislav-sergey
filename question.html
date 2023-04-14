@@ -67,12 +67,14 @@ function docReady()
 }
 
 function showCorrectAnswer()
-{
+
+{% if level_name == "Профи"  %}  // подсветка для уровня "Профи"
+    //Отправка формы
     if (document.getElementsByTagName('button')[0].textContent == 'Следующий вопрос')
     {
-    form.submit();
+        document.getElementsByTagName('input')[0].disabled = false
+        form.submit();
     }
-{% if level_name == "Профи"  %}  // подсветка для уровня "Профи"
     // Выбран правильный ответ, подсвечиваем его зелёным
     if(document.querySelector('input[type=text]').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
     {
@@ -86,7 +88,17 @@ function showCorrectAnswer()
         document.getElementById("right_ans").innerHTML = {% for el in quest %} "{{el.right_answer}}" {% endfor %};
     }
     document.getElementsByTagName('button')[0].textContent = 'Следующий вопрос';
+    document.getElementsByTagName('input')[0].disabled = true; //блокировка поля ввода
 {% else %} // подсветка для уровней "Новичок" и "Опытный"
+    //отправление данных
+    if (document.getElementsByTagName('button')[0].textContent == 'Следующий вопрос')
+    {
+        document.getElementById("btn-check-outlined1").disabled = false
+        document.getElementById("btn-check-outlined2").disabled = false
+        document.getElementById("btn-check-outlined3").disabled = false
+        document.getElementById("btn-check-outlined4").disabled = false
+        form.submit();
+    }
     // Выбран правильный ответ, подсвечиваем его зелёным
     if(document.querySelector('input[type=radio]:checked').value == {% for el in quest %} "{{el.right_answer}}" {% endfor %})
     {
@@ -99,6 +111,11 @@ function showCorrectAnswer()
         document.querySelector('input[type=radio]:checked').nextElementSibling.style.backgroundColor = '#faacc4';
         document.querySelector('input[value={% for el in quest %} "{{el.right_answer}}" {% endfor %}]').nextElementSibling.style.backgroundColor = '#bbfac9';
     }
+    //блокировка кнопок
+    document.getElementById("btn-check-outlined1").disabled = true
+    document.getElementById("btn-check-outlined2").disabled = true
+    document.getElementById("btn-check-outlined3").disabled = true
+    document.getElementById("btn-check-outlined4").disabled = true
     document.getElementsByTagName('button')[0].textContent = 'Следующий вопрос';
 {% endif %}
 }
