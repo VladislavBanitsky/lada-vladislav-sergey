@@ -72,6 +72,8 @@ class Member(db.Model):
 
 def Test(id_q, id_m):  # id_q - id вопроса
     a = request.form.getlist('mybox')
+    if len(a) == 0:
+        return 0
     b = (a[0])  # введённый ответ
     print(b)
     # Вопрос по id_q для уровня Beginner
@@ -121,6 +123,8 @@ def Test(id_q, id_m):  # id_q - id вопроса
 
 def Test2(id_q, id_m):
     a = request.form.getlist('mybox')
+    if len(a) == 0:
+        return 0
     b = (a[0])
     print(b)
     ans = Experienced.query.filter_by(id=id_q).first()
@@ -163,6 +167,8 @@ def Test2(id_q, id_m):
 
 def Test3(id_q, id_m):
     a = request.form.getlist('mybox')
+    if len(a) == 0:
+        return 0
     b = (a[0])
     print(b)
     c = b.lower()
