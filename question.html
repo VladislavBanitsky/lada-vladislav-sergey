@@ -56,6 +56,15 @@
 
 <!-- Подсветка правильных/неправильных ответов -->
 <script>
+(function() {
+  document.querySelector('input').addEventListener('keydown', function(e)
+  {
+    if (e.keyCode === 13)
+    {
+     showCorrectAnswer();
+    }
+  });
+})();
 document.addEventListener('DOMContentLoaded', docReady);
 function docReady()
 {
@@ -65,12 +74,6 @@ function docReady()
     document.getElementsByTagName('button')[0].addEventListener('click', showCorrectAnswer);
 {% endif %}
 }
- 
- form.addEventListener('keydown', function(event) {
-    if(event.keyCode == 13) {
-       event.preventDefault();
-    }
- });
 
 function showCorrectAnswer()
 {
